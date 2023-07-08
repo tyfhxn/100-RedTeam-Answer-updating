@@ -1,7 +1,7 @@
 import socket
 import time
 
-host = "192.168.0.140"
+host = "0.0.0.0"
 port = 5980
 bufsiz = 1024
 addr = (host, port)
