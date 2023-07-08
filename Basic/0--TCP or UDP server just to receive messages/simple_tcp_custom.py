@@ -1,6 +1,6 @@
 import socket
 
-host = "192.168.0.140"
+host = "192.168.3.98"
 port = 5980
 addr = (host, port)
 tcpCussocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

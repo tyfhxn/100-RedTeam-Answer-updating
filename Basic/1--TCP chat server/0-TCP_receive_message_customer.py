@@ -1,17 +1,30 @@
 import socket
 import random
 
+import wmi
+
 # 1初始化套接字
 tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+
 # 2建立链接  要传入链接的服务器ip和port
-hostname = socket.gethostname()
-ip = socket.gethostbyname(hostname)
-tcp_socket.connect((ip, 11000))
+def get_ethernet_ip():
+    c = wmi.WMI()
+    for interface in c.Win32_NetworkAdapterConfiguration(IPEnabled=True):
+        # print(interface.IPAddress[0] + '----' + interface.Description)
+        if 'Realtek PCIe GbE Family Controller' in interface.Description:
+            # print(interface)
+            ip = interface.IPAddress[0]
+            return ip
+    return None
+
+
+ip = get_ethernet_ip()
+tcp_socket.connect((ip, 5980))
 
 while True:
     text = input('发送的数据')
-    #判断输入是否为空：防止出现input接受空值导致进程死锁 
+    # 判断输入是否为空：防止出现input接受空值导致进程死锁
     while text == "":
         text = input("不允许为空")
     # 3发数据
